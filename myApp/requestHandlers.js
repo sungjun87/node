@@ -70,10 +70,39 @@ function communityCreate(response, request) {
 			"Location" : "/community",
 			"Content-Type" : "text/html"
 		});
-		response.close();
+		response.end();
 	});
 }
-
+function communityDetail (response, request) {
+	var body = '';
+	body += '<html>';
+	body += '<head>';
+	body += '<meta charset="utf-8">';
+	body += '<title>세부보기</title>';
+	body += '</head>';
+	body += '<body>';
+	body += '<h1>커뮤니티 세부보기</h1>';
+	body += '<ul>';
+	body += '<li>이름: ' + contents.getName() + '</li>';
+	body += '<li>설명: ' + contents.getDesc() + '</li>';
+	body += '<li>가입인원: ' + count + '</li>';
+	body += '</ul>'	;
+	body += '<form action="join" method="post">'	;
+	body += '<input type="hidden" name="_id" value="' + id +  '">'	;
+	body += '이메일: <input type="text" name="email"><br>'	;
+	body += '이름: <input type="text" name="name"><br>'	;
+	body += '비밀번호: <input type="text" name="password"><br>'	;
+	body += '<input type="submit" value="가입">'	;
+	body += '</form>';	
+	body += '</body>';
+	body += '</html>';
+	response.writeHead(200, {
+		'Content-Type' : 'text/html'
+	});
+	response.write(body);
+	response.end();
+	
+}
 
 
 var handle = {};
@@ -81,5 +110,5 @@ handle['/'] = community;
 handle['/community'] = community;
 handle['/open'] = communityOpen;
 handle['/create'] = communityCreate;
-
+handle['/detail'] = communityDetail;
 exports.handle = handle;
